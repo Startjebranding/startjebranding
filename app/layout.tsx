@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import ScrollReveal from "./components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Startjebranding – Merch & Websites voor Bedrijven",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="nl" className="scroll-smooth">
       <body className="antialiased flex flex-col min-h-screen">
+        <ScrollReveal />
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />

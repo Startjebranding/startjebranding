@@ -113,7 +113,7 @@ export default function KledingPage() {
       {/* Producten */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-14" data-reveal="up">
             <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
               Ons assortiment
             </p>
@@ -122,8 +122,8 @@ export default function KledingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {producten.map((p) => (
-              <div key={p.naam} className="product-card">
+            {producten.map((p, i) => (
+              <div key={p.naam} className="product-card" data-reveal="up" data-delay={String(i + 1)}>
                 <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-4"
                   style={{ backgroundColor: "var(--blue-xpale)" }}
@@ -145,7 +145,7 @@ export default function KledingPage() {
       {/* Hoe het werkt */}
       <section className="py-20" style={{ backgroundColor: "var(--gray-50)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-14" data-reveal="up">
             <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
               Het proces
             </p>
@@ -154,8 +154,8 @@ export default function KledingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stappen.map((s) => (
-              <div key={s.nr} className="feature-card">
+            {stappen.map((s, i) => (
+              <div key={s.nr} className="feature-card" data-reveal="scale" data-delay={String(i + 1)}>
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center font-black text-lg mb-4"
                   style={{
@@ -194,7 +194,7 @@ export default function KledingPage() {
             borderRadius: "50%",
           }}
         />
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
+        <div className="relative max-w-3xl mx-auto px-6 text-center" data-reveal="up">
           <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: "var(--gray-900)" }}>
             Klaar om jouw merk zichtbaar te maken?
           </h2>

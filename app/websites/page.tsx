@@ -119,8 +119,8 @@ export default function WebsitesPage() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-            {features.map((f) => (
-              <div key={f.label} className="flex items-center gap-2">
+            {features.map((f, i) => (
+              <div key={f.label} className="flex items-center gap-2" data-reveal="up" data-delay={String(i + 1)}>
                 <span className="text-lg">{f.icon}</span>
                 <span className="text-sm font-semibold" style={{ color: "var(--gray-700)" }}>
                   {f.label}
@@ -134,7 +134,7 @@ export default function WebsitesPage() {
       {/* Diensten */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-14" data-reveal="up">
             <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
               Wat wij bouwen
             </p>
@@ -143,8 +143,8 @@ export default function WebsitesPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-6">
-            {diensten.map((d) => (
-              <div key={d.naam} className="website-card">
+            {diensten.map((d, i) => (
+              <div key={d.naam} className="website-card" data-reveal={i % 2 === 0 ? "left" : "right"} data-delay={String(i + 1)}>
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
                   style={{ backgroundColor: "var(--blue-xpale)" }}
@@ -180,7 +180,7 @@ export default function WebsitesPage() {
       {/* Hoe het werkt */}
       <section className="py-20" style={{ backgroundColor: "var(--gray-50)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <div className="text-center mb-14" data-reveal="up">
             <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
               Het proces
             </p>
@@ -189,8 +189,8 @@ export default function WebsitesPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stappen.map((s) => (
-              <div key={s.nr} className="feature-card">
+            {stappen.map((s, i) => (
+              <div key={s.nr} className="feature-card" data-reveal="scale" data-delay={String(i + 1)}>
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center font-black text-lg mb-4"
                   style={{
@@ -229,7 +229,7 @@ export default function WebsitesPage() {
             borderRadius: "50%",
           }}
         />
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
+        <div className="relative max-w-3xl mx-auto px-6 text-center" data-reveal="up">
           <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: "var(--gray-900)" }}>
             Tijd voor een website die voor jou werkt
           </h2>

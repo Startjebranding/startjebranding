@@ -10,7 +10,7 @@ export default function Home() {
       {/* ─── SERVICES ─────────────────────────────────────────────── */}
       <section className="py-28" style={{ backgroundColor: "var(--gray-50)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal="up">
             <p
               className="text-sm font-bold uppercase tracking-widest mb-3"
               style={{ color: "var(--blue)" }}
@@ -31,7 +31,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Card 1: Kleding */}
-            <Link href="/kleding" className="service-card group">
+            <Link href="/kleding" className="service-card group" data-reveal="left">
               {/* Visual top */}
               <div
                 className="w-full h-40 rounded-2xl mb-8 flex items-center justify-center relative overflow-hidden"
@@ -81,7 +81,7 @@ export default function Home() {
             </Link>
 
             {/* Card 2: Websites */}
-            <Link href="/websites" className="service-card group">
+            <Link href="/websites" className="service-card group" data-reveal="right">
               {/* Visual top */}
               <div
                 className="w-full h-40 rounded-2xl mb-8 flex items-center justify-center relative overflow-hidden"
@@ -136,7 +136,7 @@ export default function Home() {
       {/* ─── VISUAL STRIP / HOW IT WORKS ──────────────────────────── */}
       <section className="py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal="up">
             <p
               className="text-sm font-bold uppercase tracking-widest mb-3"
               style={{ color: "var(--blue)" }}
@@ -184,8 +184,8 @@ export default function Home() {
                 desc: "Jouw kleding of website wordt afgeleverd — op tijd, precies zoals afgesproken.",
                 icon: "🚀",
               },
-            ].map((step) => (
-              <div key={step.num} className="flex flex-col items-center text-center">
+            ].map((step, i) => (
+              <div key={step.num} className="flex flex-col items-center text-center" data-reveal="up" data-delay={String(i + 1)}>
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl mb-6 relative z-10"
                   style={{
@@ -216,7 +216,7 @@ export default function Home() {
       {/* ─── WHY US ────────────────────────────────────────────────── */}
       <section className="py-28" style={{ backgroundColor: "var(--blue-xpale)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal="up">
             <p
               className="text-sm font-bold uppercase tracking-widest mb-3"
               style={{ color: "var(--blue)" }}
@@ -262,8 +262,8 @@ export default function Home() {
                 color: "var(--blue-pale)",
                 borderColor: "rgba(37,99,235,0.2)",
               },
-            ].map((item) => (
-              <div key={item.title} className="feature-card">
+            ].map((item, i) => (
+              <div key={item.title} className="feature-card" data-reveal="scale" data-delay={String(i + 1)}>
                 <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5"
                   style={{
@@ -316,7 +316,7 @@ export default function Home() {
           }}
         />
 
-        <div className="relative max-w-4xl mx-auto px-6 text-center">
+        <div className="relative max-w-4xl mx-auto px-6 text-center" data-reveal="up">
           <p
             className="text-sm font-bold uppercase tracking-widest mb-4"
             style={{ color: "var(--blue)" }}
