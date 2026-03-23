@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "var(--navy)", borderTop: "1px solid rgba(37,99,235,0.2)" }}>
+    <footer style={{ backgroundColor: "var(--gray-50)", borderTop: "1.5px solid var(--gray-200)" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
@@ -14,11 +14,11 @@ export default function Footer() {
               >
                 S
               </div>
-              <span className="font-bold text-white text-lg tracking-tight">
-                Startje<span style={{ color: "var(--blue-light)" }}>branding</span>
+              <span className="font-bold text-lg tracking-tight" style={{ color: "var(--gray-900)" }}>
+                Startje<span style={{ color: "var(--blue)" }}>branding</span>
               </span>
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--gray-500)" }}>
               Jouw merk, onze expertise. Wij bouwen aan sterke merken met professionele kleding
               en krachtige websites.
             </p>
@@ -26,7 +26,7 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <p className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">
+            <p className="font-bold text-sm mb-4 uppercase tracking-wider" style={{ color: "var(--gray-700)" }}>
               Diensten
             </p>
             <ul className="flex flex-col gap-2">
@@ -46,7 +46,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">
+            <p className="font-bold text-sm mb-4 uppercase tracking-wider" style={{ color: "var(--gray-700)" }}>
               Contact
             </p>
             <ul className="flex flex-col gap-2">
@@ -55,7 +55,7 @@ export default function Footer() {
                   info@startjebranding.nl
                 </a>
               </li>
-              <li className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <li className="text-sm" style={{ color: "var(--gray-500)" }}>
                 Nederland
               </li>
             </ul>
@@ -65,12 +65,12 @@ export default function Footer() {
         <div
           className="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs"
           style={{
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.3)",
+            borderTop: "1.5px solid var(--gray-200)",
+            color: "var(--gray-500)",
           }}
         >
           <p>© {new Date().getFullYear()} Startjebranding. Alle rechten voorbehouden.</p>
-          <p>Gemaakt met passie in Nederland</p>
+          <p>Gemaakt met passie in Nederland 🇳🇱</p>
         </div>
       </div>
     </footer>

@@ -18,30 +18,42 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section
-        className="relative overflow-hidden hero-grid py-20"
-        style={{ backgroundColor: "var(--navy)" }}
+        className="relative overflow-hidden py-20"
+        style={{ background: "linear-gradient(160deg, #FFFFFF 0%, #F0F7FF 50%, #DBEAFE 100%)" }}
       >
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            width: 400,
+            height: 400,
+            top: -120,
+            right: -80,
+            background: "radial-gradient(circle, rgba(191,219,254,0.5) 0%, transparent 65%)",
+            borderRadius: "50%",
+          }}
+        />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse at 50% 50%, rgba(37,99,235,0.12) 0%, transparent 60%)",
+            backgroundImage: "radial-gradient(circle, rgba(37,99,235,0.08) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
           }}
         />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
             style={{
-              backgroundColor: "rgba(37,99,235,0.15)",
-              border: "1px solid rgba(37,99,235,0.3)",
-              color: "var(--blue-glow)",
+              backgroundColor: "rgba(37,99,235,0.08)",
+              border: "1.5px solid rgba(37,99,235,0.2)",
+              color: "var(--blue)",
             }}
           >
             ✉️ Neem contact op
           </div>
-          <h1 className="text-5xl md:text-6xl font-black text-white leading-tight mb-4">
-            Laten we praten
+          <h1 className="text-5xl md:text-6xl font-black leading-tight mb-4" style={{ color: "var(--gray-900)" }}>
+            Laten we <span className="gradient-text-blue">praten</span>
           </h1>
-          <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)", maxWidth: 500, margin: "0 auto" }}>
+          <p className="text-lg" style={{ color: "var(--gray-500)", maxWidth: 500, margin: "0 auto" }}>
             Vertel ons wat je nodig hebt. We sturen je binnen 24 uur een reactie.
           </p>
         </div>
@@ -54,7 +66,7 @@ export default function ContactPage() {
           {/* Sidebar info */}
           <div className="lg:col-span-2 flex flex-col gap-8">
             <div>
-              <h2 className="text-2xl font-black mb-4" style={{ color: "var(--navy)" }}>
+              <h2 className="text-2xl font-black mb-4" style={{ color: "var(--gray-900)" }}>
                 Wat kun je van ons verwachten?
               </h2>
               <ul className="flex flex-col gap-4">
@@ -83,7 +95,7 @@ export default function ContactPage() {
               className="p-6 rounded-2xl"
               style={{ backgroundColor: "var(--gray-50)", border: "1px solid var(--gray-200)" }}
             >
-              <p className="text-sm font-semibold mb-2" style={{ color: "var(--navy)" }}>
+              <p className="text-sm font-semibold mb-2" style={{ color: "var(--gray-900)" }}>
                 Direct contact
               </p>
               <a
@@ -143,7 +155,7 @@ export default function ContactPage() {
                 style={{ backgroundColor: "var(--gray-50)", border: "1px solid var(--gray-200)" }}
               >
                 <div className="text-5xl mb-4">🎉</div>
-                <h3 className="text-2xl font-black mb-2" style={{ color: "var(--navy)" }}>
+                <h3 className="text-2xl font-black mb-2" style={{ color: "var(--gray-900)" }}>
                   Bericht ontvangen!
                 </h3>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--gray-500)" }}>
@@ -160,7 +172,7 @@ export default function ContactPage() {
                 <div className="mb-6">
                   <label
                     className="block text-sm font-semibold mb-3"
-                    style={{ color: "var(--navy)" }}
+                    style={{ color: "var(--gray-900)" }}
                   >
                     Waar heb je interesse in?
                   </label>

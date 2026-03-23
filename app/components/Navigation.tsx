@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,11 +14,23 @@ const navLinks = [
 export default function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <nav
-      style={{ backgroundColor: "var(--navy)", borderBottom: "1px solid rgba(37,99,235,0.2)" }}
-      className="sticky top-0 z-50 backdrop-blur-sm"
+      className="sticky top-0 z-50 transition-all duration-300"
+      style={{
+        backgroundColor: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.7)",
+        backdropFilter: "blur(16px)",
+        borderBottom: scrolled ? "1px solid rgba(37,99,235,0.1)" : "1px solid transparent",
+        boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -30,8 +42,8 @@ export default function Navigation() {
             >
               S
             </div>
-            <span className="font-bold text-white text-lg tracking-tight">
-              Startje<span style={{ color: "var(--blue-light)" }}>branding</span>
+            <span className="font-bold text-lg tracking-tight" style={{ color: "var(--gray-900)" }}>
+              Startje<span style={{ color: "var(--blue)" }}>branding</span>
             </span>
           </Link>
 
@@ -45,18 +57,18 @@ export default function Navigation() {
                   href={link.href}
                   className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
                   style={{
-                    color: isActive ? "var(--blue-light)" : "rgba(255,255,255,0.7)",
-                    backgroundColor: isActive ? "rgba(37,99,235,0.15)" : "transparent",
+                    color: isActive ? "var(--blue)" : "var(--gray-700)",
+                    backgroundColor: isActive ? "rgba(37,99,235,0.08)" : "transparent",
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = "#fff";
-                      e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.color = "var(--blue)";
+                      e.currentTarget.style.backgroundColor = "rgba(37,99,235,0.06)";
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = "rgba(255,255,255,0.7)";
+                      e.currentTarget.style.color = "var(--gray-700)";
                       e.currentTarget.style.backgroundColor = "transparent";
                     }
                   }}
@@ -71,15 +83,18 @@ export default function Navigation() {
           <div className="hidden md:block">
             <Link
               href="/contact"
-              className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-200"
-              style={{ backgroundColor: "var(--blue)" }}
+              className="px-5 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200"
+              style={{
+                background: "linear-gradient(135deg, var(--blue), var(--blue-mid))",
+                boxShadow: "0 2px 12px rgba(37,99,235,0.3)",
+              }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--blue-mid)";
                 e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 4px 20px rgba(37,99,235,0.4)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--blue)";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 12px rgba(37,99,235,0.3)";
               }}
             >
               Gratis offerte
@@ -88,10 +103,13 @@ export default function Navigation() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-white"
+            className="md:hidden p-2 rounded-lg transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu openen"
-            style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+            style={{
+              color: "var(--gray-700)",
+              backgroundColor: "rgba(37,99,235,0.06)",
+            }}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               {menuOpen ? (
@@ -115,7 +133,7 @@ export default function Navigation() {
         {menuOpen && (
           <div
             className="md:hidden pb-4 flex flex-col gap-1"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "12px" }}
+            style={{ borderTop: "1px solid var(--gray-100)", paddingTop: "12px" }}
           >
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -125,8 +143,8 @@ export default function Navigation() {
                   href={link.href}
                   className="px-4 py-3 rounded-lg text-sm font-medium transition-colors"
                   style={{
-                    color: isActive ? "var(--blue-light)" : "rgba(255,255,255,0.8)",
-                    backgroundColor: isActive ? "rgba(37,99,235,0.15)" : "transparent",
+                    color: isActive ? "var(--blue)" : "var(--gray-700)",
+                    backgroundColor: isActive ? "rgba(37,99,235,0.08)" : "transparent",
                   }}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -136,8 +154,8 @@ export default function Navigation() {
             })}
             <Link
               href="/contact"
-              className="mt-2 px-4 py-3 rounded-lg text-sm font-semibold text-white text-center"
-              style={{ backgroundColor: "var(--blue)" }}
+              className="mt-2 px-4 py-3 rounded-xl text-sm font-semibold text-white text-center"
+              style={{ background: "linear-gradient(135deg, var(--blue), var(--blue-mid))" }}
               onClick={() => setMenuOpen(false)}
             >
               Gratis offerte
