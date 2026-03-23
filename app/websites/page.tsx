@@ -78,9 +78,6 @@ export default function WebsitesPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl">
-            <Link href="/" className="back-link">
-              ← Terug naar home
-            </Link>
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
               style={{
