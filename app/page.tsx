@@ -135,7 +135,15 @@ export default function Home() {
       </section>
 
       {/* ─── HOW IT WORKS ──────────────────────────────────────────── */}
-      <ProcessSection />
+      <ProcessSection
+        eyebrow="Hoe het werkt"
+        heading={<>In 3 stappen <span className="gradient-text-blue">live</span></>}
+        steps={[
+          { num: "01", title: "Aanvraag & gesprek", desc: "Stuur ons een bericht. We bespreken jouw wensen, stijl en doelen — snel en persoonlijk." },
+          { num: "02", title: "Ontwerp & productie", desc: "Wij gaan aan de slag. Je ontvangt ontwerpen ter goedkeuring voordat er iets geproduceerd wordt." },
+          { num: "03", title: "Levering & live!", desc: "Jouw kleding of website wordt afgeleverd — op tijd, precies zoals afgesproken." },
+        ]}
+      />
 
       {/* ─── WHY US ────────────────────────────────────────────────── */}
       <section className="py-28" style={{ backgroundColor: "var(--blue-xpale)" }}>

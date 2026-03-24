@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ProcessSection from "../components/ProcessSection";
 
 export const metadata = {
   title: "Websites Bouwen – Startjebranding",
@@ -175,40 +176,12 @@ export default function WebsitesPage() {
       </section>
 
       {/* Hoe het werkt */}
-      <section className="py-20" style={{ backgroundColor: "var(--gray-50)" }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14" data-reveal="up">
-            <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: "var(--blue)" }}>
-              Het proces
-            </p>
-            <h2 className="text-3xl md:text-4xl font-black" style={{ color: "var(--gray-900)" }}>
-              Van idee naar live website
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stappen.map((s, i) => (
-              <div key={s.nr} className="feature-card" data-reveal="scale" data-delay={String(i + 1)}>
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center font-black text-lg mb-4"
-                  style={{
-                    background: "linear-gradient(135deg, var(--blue-xpale), var(--blue-pale))",
-                    color: "var(--blue)",
-                    border: "1.5px solid rgba(37,99,235,0.2)",
-                  }}
-                >
-                  {s.nr}
-                </div>
-                <h3 className="text-lg font-bold mb-2" style={{ color: "var(--gray-900)" }}>
-                  {s.titel}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--gray-500)" }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ProcessSection
+        eyebrow="Het proces"
+        heading={<>Van idee naar <span className="gradient-text-blue">live website</span></>}
+        steps={stappen.map((s) => ({ num: s.nr, title: s.titel, desc: s.desc }))}
+        bg="var(--gray-50)"
+      />
 
       {/* CTA */}
       <section
