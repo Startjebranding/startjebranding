@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ParallaxHero from "./components/ParallaxHero";
+import ProcessSection from "./components/ProcessSection";
 
 export default function Home() {
   return (
@@ -133,85 +134,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── VISUAL STRIP / HOW IT WORKS ──────────────────────────── */}
-      <section className="py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16" data-reveal="up">
-            <p
-              className="text-sm font-bold uppercase tracking-widest mb-3"
-              style={{ color: "var(--blue)" }}
-            >
-              Hoe het werkt
-            </p>
-            <h2
-              className="text-4xl md:text-5xl font-black"
-              style={{ color: "var(--gray-900)" }}
-            >
-              In 3 stappen{" "}
-              <span className="gradient-text-blue">live</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connector line (desktop only) */}
-            <div
-              className="absolute hidden md:block pointer-events-none"
-              style={{
-                top: 36,
-                left: "calc(33.33% - 12px)",
-                right: "calc(33.33% - 12px)",
-                height: 2,
-                background: "linear-gradient(90deg, var(--blue-pale), var(--blue-light))",
-              }}
-            />
-
-            {[
-              {
-                num: "01",
-                title: "Aanvraag & gesprek",
-                desc: "Stuur ons een bericht. We bespreken jouw wensen, stijl en doelen — snel en persoonlijk.",
-                icon: "💬",
-              },
-              {
-                num: "02",
-                title: "Ontwerp & productie",
-                desc: "Wij gaan aan de slag. Je ontvangt ontwerpen ter goedkeuring voordat er iets geproduceerd wordt.",
-                icon: "✏️",
-              },
-              {
-                num: "03",
-                title: "Levering & live!",
-                desc: "Jouw kleding of website wordt afgeleverd — op tijd, precies zoals afgesproken.",
-                icon: "🚀",
-              },
-            ].map((step, i) => (
-              <div key={step.num} className="flex flex-col items-center text-center" data-reveal="up" data-delay={String(i + 1)}>
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl mb-6 relative z-10"
-                  style={{
-                    background: "linear-gradient(135deg, var(--blue-xpale), var(--blue-pale))",
-                    border: "2px solid rgba(37,99,235,0.2)",
-                  }}
-                >
-                  {step.icon}
-                </div>
-                <span
-                  className="text-xs font-black uppercase tracking-widest mb-2"
-                  style={{ color: "var(--blue-light)" }}
-                >
-                  {step.num}
-                </span>
-                <h3 className="text-lg font-bold mb-3" style={{ color: "var(--gray-900)" }}>
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--gray-500)" }}>
-                  {step.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ─── HOW IT WORKS ──────────────────────────────────────────── */}
+      <ProcessSection />
 
       {/* ─── WHY US ────────────────────────────────────────────────── */}
       <section className="py-28" style={{ backgroundColor: "var(--blue-xpale)" }}>
