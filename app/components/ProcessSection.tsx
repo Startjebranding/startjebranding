@@ -14,67 +14,71 @@ interface Props {
   bg?: string;
 }
 
-// Layout lookup by step count.
-// Dots: calculated bezier positions at evenly spaced t values.
-// Cards: centered on each dot, with white bg sitting above the SVG.
+// Steps alternate left / right (zigzag).
+// Cards are absolutely positioned with white bg so the SVG line runs behind them.
+// Nodes are the bezier points where the path "lands" at each step.
+// Card positions are centered on each node (card is 300×~130px).
+// SVG viewBox: 0 0 1100 [height]  — matches max-w-7xl content width closely.
+
 const LAYOUTS = {
   3: {
-    viewBox: "0 0 1200 560",
-    height: 560,
-    path: "M 1060 30 C 900 150, 300 380, 100 530",
-    // t=0: (1060,30)  t=0.5: (595,269)  t=1: (100,530)
-    dots: [[1060, 30], [595, 269], [100, 530]] as [number, number][],
-    // Card centered on each dot (280px wide, ~120px tall)
+    viewBox: "0 0 1100 600",
+    height: 600,
+    // L(150,90) → R(950,310) → L(150,510)
+    // S-curve: segment 1 sweeps right, segment 2 sweeps back left
+    path: "M 150 90 C 560 90, 560 310, 950 310 C 1340 310, -240 510, 150 510",
+    nodes: [[150, 90], [950, 310], [150, 510]] as [number, number][],
+    // left:0 or right:0; top/bottom in px; rotate in deg
     cards: [
-      { right: 0, top: 0 } as React.CSSProperties,
-      { left: "calc(50% - 140px)", top: "37%" } as React.CSSProperties,
-      { left: 0, bottom: 0 } as React.CSSProperties,
+      { side: "left" as const,  top: 0,   bottom: undefined, rotate: -1.5 },
+      { side: "right" as const, top: 245, bottom: undefined, rotate:  1.2 },
+      { side: "left" as const,  top: undefined, bottom: 0,   rotate: -1   },
     ],
   },
   4: {
-    viewBox: "0 0 1200 680",
-    height: 680,
-    path: "M 1060 30 C 900 150, 300 500, 100 650",
-    // t=0:(1060,30) t=1/3:(784,211) t=2/3:(402,449) t=1:(100,650)
-    dots: [[1060, 30], [784, 211], [402, 449], [100, 650]] as [number, number][],
+    viewBox: "0 0 1100 720",
+    height: 720,
+    // L(150,90) → R(950,260) → L(150,430) → R(950,620)
+    path: "M 150 90 C 560 90, 560 260, 950 260 C 1340 260, -240 430, 150 430 C 560 430, 560 620, 950 620",
+    nodes: [[150, 90], [950, 260], [150, 430], [950, 620]] as [number, number][],
     cards: [
-      { right: 0, top: 0 } as React.CSSProperties,
-      { left: "calc(65% - 140px)", top: "21%" } as React.CSSProperties,
-      { left: "calc(33% - 140px)", top: "56%" } as React.CSSProperties,
-      { left: 0, bottom: 0 } as React.CSSProperties,
+      { side: "left" as const,  top: 0,   bottom: undefined, rotate: -1.5 },
+      { side: "right" as const, top: 195, bottom: undefined, rotate:  1.2 },
+      { side: "left" as const,  top: 365, bottom: undefined, rotate: -1   },
+      { side: "right" as const, top: undefined, bottom: 0,   rotate:  1.5 },
     ],
   },
 };
 
+const CARD_W = 300;
+
 export default function ProcessSection({ eyebrow, heading, steps, bg = "white" }: Props) {
-  const pathRef = useRef<SVGPathElement>(null);
-  const glowRef = useRef<SVGPathElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef   = useRef<SVGPathElement>(null);
+  const glowRef   = useRef<SVGPathElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const layout = LAYOUTS[steps.length as keyof typeof LAYOUTS] ?? LAYOUTS[4];
 
   useEffect(() => {
     const path = pathRef.current;
     const glow = glowRef.current;
-    const container = containerRef.current;
-    if (!path || !glow || !container) return;
+    const section = sectionRef.current;
+    if (!path || !glow || !section) return;
 
-    const totalLength = path.getTotalLength();
+    const len = path.getTotalLength();
     [path, glow].forEach((el) => {
-      el.style.strokeDasharray = String(totalLength);
-      el.style.strokeDashoffset = String(totalLength);
+      el.style.strokeDasharray = String(len);
+      el.style.strokeDashoffset = String(len);
     });
 
     const update = () => {
-      const rect = container.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // Draw the full line while scrolling ~70% of the viewport height
-      const progress = Math.max(0, Math.min(1,
-        (vh * 0.85 - rect.top) / (vh * 0.7)
-      ));
-      const offset = String(totalLength * (1 - progress));
-      path.style.strokeDashoffset = offset;
-      glow.style.strokeDashoffset = offset;
+      const rect = section.getBoundingClientRect();
+      const vh   = window.innerHeight;
+      // Starts drawing when section enters viewport; fully drawn in ~65% of vh of scrolling
+      const progress = Math.max(0, Math.min(1, (vh * 0.9 - rect.top) / (vh * 0.65)));
+      const off = String(len * (1 - progress));
+      path.style.strokeDashoffset = off;
+      glow.style.strokeDashoffset = off;
     };
 
     window.addEventListener("scroll", update, { passive: true });
@@ -83,30 +87,31 @@ export default function ProcessSection({ eyebrow, heading, steps, bg = "white" }
   }, []);
 
   return (
-    <section className="py-32 overflow-hidden" style={{ backgroundColor: bg }}>
+    <section className="py-28 overflow-hidden" style={{ backgroundColor: bg }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-20" data-reveal="up">
+
+        {/* Header */}
+        <div className="text-center mb-16" data-reveal="up">
           <p
-            className="text-sm font-bold uppercase tracking-widest mb-3"
+            className="text-xs font-black uppercase tracking-widest mb-3"
             style={{ color: "var(--blue)" }}
           >
             {eyebrow}
           </p>
           <h2
             className="text-4xl md:text-5xl font-black"
-            style={{ color: "var(--gray-900)" }}
+            style={{ color: "var(--gray-900)", lineHeight: 1.15 }}
           >
             {heading}
           </h2>
         </div>
 
-        {/* Desktop: diagonal layout */}
+        {/* ── Desktop zigzag ──────────────────────────────────────── */}
         <div
-          ref={containerRef}
+          ref={sectionRef}
           className="relative hidden md:block"
           style={{ height: layout.height }}
         >
-          {/* SVG line — sits behind cards */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none"
             viewBox={layout.viewBox}
@@ -116,8 +121,8 @@ export default function ProcessSection({ eyebrow, heading, steps, bg = "white" }
             style={{ zIndex: 0 }}
           >
             <defs>
-              <filter id="line-glow" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+              <filter id="ps-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
@@ -125,96 +130,145 @@ export default function ProcessSection({ eyebrow, heading, steps, bg = "white" }
               </filter>
             </defs>
 
-            {/* Ghost track */}
+            {/* Ghost track — dashed */}
             <path
               d={layout.path}
               stroke="var(--blue-pale)"
               strokeWidth="2"
+              strokeDasharray="6 10"
               strokeLinecap="round"
             />
-            {/* Animated glow halo */}
+            {/* Wide soft glow (animates with line) */}
             <path
               ref={glowRef}
               d={layout.path}
-              stroke="rgba(96,165,250,0.22)"
-              strokeWidth="16"
+              stroke="rgba(96,165,250,0.18)"
+              strokeWidth="20"
               strokeLinecap="round"
             />
-            {/* Animated main line */}
+            {/* Main animated line */}
             <path
               ref={pathRef}
               d={layout.path}
               stroke="var(--blue)"
               strokeWidth="2.5"
               strokeLinecap="round"
-              filter="url(#line-glow)"
+              filter="url(#ps-glow)"
             />
-            {/* Dots at each step (visible in gaps between cards) */}
-            {layout.dots.map(([cx, cy], i) => (
-              <circle
-                key={i}
-                cx={cx}
-                cy={cy}
-                r="5"
-                fill="white"
-                stroke="var(--blue)"
-                strokeWidth="2"
-              />
+            {/* Node dots — sit in gaps between cards */}
+            {layout.nodes.map(([cx, cy], i) => (
+              <g key={i}>
+                <circle cx={cx} cy={cy} r="8" fill="rgba(37,99,235,0.1)" />
+                <circle cx={cx} cy={cy} r="4.5" fill="white" stroke="var(--blue)" strokeWidth="2" />
+              </g>
             ))}
           </svg>
 
-          {/* Step cards — sit above SVG line */}
-          {steps.map((step, i) => (
-            <div
-              key={step.num}
-              className="absolute"
-              style={{ ...layout.cards[i], width: 280, zIndex: 10 }}
-              data-reveal="up"
-              data-delay={String(i + 1)}
-            >
-              <StepCard step={step} />
-            </div>
-          ))}
+          {/* Cards */}
+          {steps.map((step, i) => {
+            const c = layout.cards[i];
+            if (!c) return null;
+            const style: React.CSSProperties = {
+              position: "absolute",
+              width: CARD_W,
+              zIndex: 10,
+              transform: `rotate(${c.rotate}deg)`,
+            };
+            if (c.side === "left")  style.left  = 0;
+            else                    style.right  = 0;
+            if (c.top    !== undefined) style.top    = c.top;
+            if (c.bottom !== undefined) style.bottom = c.bottom;
+
+            return (
+              <div key={step.num} style={style} data-reveal="up" data-delay={String(i + 1)}>
+                <StepCard step={step} index={i} />
+              </div>
+            );
+          })}
         </div>
 
-        {/* Mobile: stacked */}
-        <div className="md:hidden flex flex-col gap-8">
-          {steps.map((step, i) => (
-            <div key={step.num} data-reveal="up" data-delay={String(i + 1)}>
-              <StepCard step={step} />
+        {/* ── Mobile vertical timeline ────────────────────────────── */}
+        <div className="md:hidden">
+          <div className="relative pl-10">
+            {/* Vertical line */}
+            <div
+              className="absolute left-4 top-3 bottom-3 w-px"
+              style={{ background: "linear-gradient(to bottom, var(--blue), var(--blue-pale))" }}
+            />
+            <div className="flex flex-col gap-10">
+              {steps.map((step, i) => (
+                <div key={step.num} className="relative" data-reveal="up" data-delay={String(i + 1)}>
+                  {/* Dot on line */}
+                  <div
+                    className="absolute -left-6 top-4 w-4 h-4 rounded-full border-2 border-blue-600"
+                    style={{ background: "white", borderColor: "var(--blue)" }}
+                  />
+                  <StepCard step={step} index={i} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
+
       </div>
     </section>
   );
 }
 
-function StepCard({ step }: { step: ProcessStep }) {
+function StepCard({ step, index }: { step: ProcessStep; index: number }) {
+  // Slight shade variation so adjacent cards feel distinct
+  const accentOpacity = 0.06 + index * 0.015;
+
   return (
     <div
-      className="rounded-2xl p-5"
       style={{
         background: "white",
         border: "1.5px solid var(--blue-pale)",
-        boxShadow: "0 4px 24px rgba(37,99,235,0.07)",
+        borderRadius: 18,
+        padding: "20px 22px 22px",
+        boxShadow: "0 2px 20px rgba(37,99,235,0.07), 0 8px 32px rgba(37,99,235,0.04)",
       }}
     >
-      <span
-        className="text-xs font-black uppercase tracking-widest block mb-2"
-        style={{ color: "var(--blue-light)" }}
-      >
-        {step.num}
-      </span>
-      <h3
-        className="text-base font-bold mb-1.5"
-        style={{ color: "var(--gray-900)" }}
-      >
-        {step.title}
-      </h3>
+      {/* Number badge + title row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <div
+          style={{
+            flexShrink: 0,
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            background: `rgba(37,99,235,${accentOpacity + 0.08})`,
+            border: "1.5px solid var(--blue-pale)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 11,
+            fontWeight: 900,
+            color: "var(--blue)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {step.num}
+        </div>
+        <h3
+          style={{
+            color: "var(--gray-900)",
+            fontWeight: 800,
+            fontSize: 15,
+            lineHeight: 1.3,
+            margin: 0,
+          }}
+        >
+          {step.title}
+        </h3>
+      </div>
       <p
-        className="text-sm leading-relaxed"
-        style={{ color: "var(--gray-500)" }}
+        style={{
+          color: "var(--gray-500)",
+          fontSize: 13,
+          lineHeight: 1.7,
+          margin: 0,
+        }}
       >
         {step.desc}
       </p>
