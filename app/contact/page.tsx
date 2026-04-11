@@ -10,28 +10,56 @@ export default function ContactPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // In productie: hier een API call of mailto
     setVerzonden(true);
+  }
+
+  const inputStyle: React.CSSProperties = {
+    backgroundColor: "white",
+    border: "1.5px solid var(--gray-200)",
+    color: "var(--gray-900)",
+  };
+
+  function onFocus(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    e.currentTarget.style.borderColor = "var(--blue)";
+    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.12)";
+  }
+  function onBlur(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    e.currentTarget.style.borderColor = "var(--gray-200)";
+    e.currentTarget.style.boxShadow = "none";
   }
 
   return (
     <>
-      {/* Hero */}
+      {/* ─── HERO ─────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden py-20"
         style={{ background: "linear-gradient(160deg, #FFFFFF 0%, #F0F7FF 50%, #DBEAFE 100%)" }}
       >
+        {/* Blobs */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none morph-blob"
           style={{
-            width: 400,
-            height: 400,
-            top: -120,
-            right: -80,
-            background: "radial-gradient(circle, rgba(191,219,254,0.5) 0%, transparent 65%)",
-            borderRadius: "50%",
+            width: 440,
+            height: 440,
+            top: -130,
+            right: -90,
+            background: "radial-gradient(circle, rgba(191,219,254,0.55) 0%, transparent 65%)",
+            animationDuration: "22s",
           }}
         />
+        <div
+          className="absolute pointer-events-none morph-blob"
+          style={{
+            width: 220,
+            height: 220,
+            bottom: -60,
+            left: -40,
+            background: "radial-gradient(circle, rgba(219,234,254,0.45) 0%, transparent 65%)",
+            animationDuration: "28s",
+            animationDelay: "-10s",
+          }}
+        />
+        {/* Dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -39,34 +67,46 @@ export default function ContactPage() {
             backgroundSize: "40px 40px",
           }}
         />
+
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          {/* Badge */}
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6 animate-fade-in-up"
             style={{
               backgroundColor: "rgba(37,99,235,0.08)",
-              border: "1.5px solid rgba(37,99,235,0.2)",
+              border: "1.5px solid rgba(37,99,235,0.20)",
               color: "var(--blue)",
             }}
           >
-            ✉️ Neem contact op
+            <span className="w-2 h-2 rounded-full status-dot" style={{ backgroundColor: "var(--blue)", flexShrink: 0 }} />
+            Neem contact op
           </div>
-          <h1 className="text-5xl md:text-6xl font-black leading-tight mb-4" style={{ color: "var(--gray-900)" }}>
-            Laten we <span className="gradient-text-blue">praten</span>
+
+          <h1
+            className="text-5xl md:text-6xl font-black leading-tight mb-4 animate-fade-in-up animate-delay-100"
+            style={{ color: "var(--gray-900)" }}
+          >
+            Laten we{" "}
+            <span className="gradient-text-animated">praten</span>
           </h1>
-          <p className="text-lg" style={{ color: "var(--gray-500)", maxWidth: 500, margin: "0 auto" }}>
+
+          <p
+            className="text-lg animate-fade-in-up animate-delay-200"
+            style={{ color: "var(--gray-500)", maxWidth: 500, margin: "0 auto" }}
+          >
             Vertel ons wat je nodig hebt. We sturen je binnen 24 uur een reactie.
           </p>
         </div>
       </section>
 
-      {/* Form + info */}
+      {/* ─── FORM + INFO ──────────────────────────────────────────── */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 grid lg:grid-cols-5 gap-12">
 
-          {/* Sidebar info */}
-          <div className="lg:col-span-2 flex flex-col gap-8">
+          {/* ── Sidebar ── */}
+          <div className="lg:col-span-2 flex flex-col gap-8" data-reveal="left">
             <div>
-              <h2 className="text-2xl font-black mb-4" style={{ color: "var(--gray-900)" }}>
+              <h2 className="text-2xl font-black mb-5" style={{ color: "var(--gray-900)" }}>
                 Wat kun je van ons verwachten?
               </h2>
               <ul className="flex flex-col gap-4">
@@ -79,7 +119,11 @@ export default function ContactPage() {
                   <li key={item.label} className="flex items-center gap-3">
                     <span
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                      style={{ backgroundColor: "rgba(37,99,235,0.08)" }}
+                      style={{
+                        backgroundColor: "rgba(37,99,235,0.08)",
+                        border: "1.5px solid rgba(37,99,235,0.12)",
+                        boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
+                      }}
                     >
                       {item.icon}
                     </span>
@@ -91,70 +135,61 @@ export default function ContactPage() {
               </ul>
             </div>
 
+            {/* Direct contact box */}
             <div
               className="p-6 rounded-2xl"
-              style={{ backgroundColor: "var(--gray-50)", border: "1px solid var(--gray-200)" }}
+              style={{
+                background: "var(--glass-bg)",
+                border: "1.5px solid var(--glass-border-blue)",
+                boxShadow: "var(--glass-shadow)",
+                backdropFilter: "blur(8px)",
+              }}
             >
-              <p className="text-sm font-semibold mb-2" style={{ color: "var(--gray-900)" }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "var(--blue)" }}>
                 Direct contact
+              </p>
+              <p className="text-sm font-semibold mb-2" style={{ color: "var(--gray-900)" }}>
+                Liever direct mailen?
               </p>
               <a
                 href="mailto:info@startjebranding.nl"
-                className="text-sm transition-colors"
-                style={{ color: "var(--blue)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--blue-mid)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--blue)")}
+                className="email-link font-semibold"
               >
                 info@startjebranding.nl
               </a>
             </div>
 
+            {/* Quick links */}
             <div className="flex gap-3">
-              <Link
-                href="/kleding"
-                className="flex-1 text-center py-3 rounded-xl text-sm font-semibold transition-all duration-200"
-                style={{
-                  backgroundColor: "rgba(37,99,235,0.08)",
-                  color: "var(--blue)",
-                  border: "1px solid rgba(37,99,235,0.2)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(37,99,235,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(37,99,235,0.08)";
-                }}
-              >
+              <Link href="/kleding" className="contact-tab">
                 👕 Kleding
               </Link>
-              <Link
-                href="/websites"
-                className="flex-1 text-center py-3 rounded-xl text-sm font-semibold transition-all duration-200"
-                style={{
-                  backgroundColor: "rgba(37,99,235,0.08)",
-                  color: "var(--blue)",
-                  border: "1px solid rgba(37,99,235,0.2)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(37,99,235,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(37,99,235,0.08)";
-                }}
-              >
+              <Link href="/websites" className="contact-tab">
                 💻 Websites
               </Link>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="lg:col-span-3">
+          {/* ── Form ── */}
+          <div className="lg:col-span-3" data-reveal="right">
             {verzonden ? (
               <div
                 className="rounded-2xl p-12 text-center"
-                style={{ backgroundColor: "var(--gray-50)", border: "1px solid var(--gray-200)" }}
+                style={{
+                  background: "var(--glass-bg)",
+                  border: "1.5px solid var(--glass-border-blue)",
+                  boxShadow: "var(--glass-shadow)",
+                }}
               >
-                <div className="text-5xl mb-4">🎉</div>
+                <div
+                  className="w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5"
+                  style={{
+                    background: "linear-gradient(135deg, var(--blue-xpale), var(--blue-pale))",
+                    border: "1.5px solid var(--blue-pale)",
+                  }}
+                >
+                  🎉
+                </div>
                 <h3 className="text-2xl font-black mb-2" style={{ color: "var(--gray-900)" }}>
                   Bericht ontvangen!
                 </h3>
@@ -166,35 +201,33 @@ export default function ContactPage() {
               <form
                 onSubmit={handleSubmit}
                 className="rounded-2xl p-8"
-                style={{ backgroundColor: "var(--gray-50)", border: "1px solid var(--gray-200)" }}
+                style={{
+                  backgroundColor: "var(--gray-50)",
+                  border: "1.5px solid var(--gray-200)",
+                }}
               >
                 {/* Dienst selector */}
                 <div className="mb-6">
-                  <label
-                    className="block text-sm font-semibold mb-3"
-                    style={{ color: "var(--gray-900)" }}
-                  >
+                  <label className="block text-sm font-semibold mb-3" style={{ color: "var(--gray-900)" }}>
                     Waar heb je interesse in?
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {[
                       { value: "kleding", label: "👕 Kleding" },
                       { value: "website", label: "💻 Website" },
-                      { value: "beide", label: "✨ Beide" },
+                      { value: "beide",   label: "✨ Beide" },
                     ].map((opt) => (
                       <button
                         key={opt.value}
                         type="button"
                         onClick={() => setDienst(opt.value as typeof dienst)}
-                        className="py-3 rounded-xl text-sm font-semibold transition-all duration-150"
+                        className="py-3 rounded-xl text-sm font-semibold transition-all"
                         style={{
-                          backgroundColor:
-                            dienst === opt.value ? "var(--blue)" : "white",
+                          backgroundColor: dienst === opt.value ? "var(--blue)" : "white",
                           color: dienst === opt.value ? "white" : "var(--gray-700)",
-                          border:
-                            dienst === opt.value
-                              ? "1px solid var(--blue)"
-                              : "1px solid var(--gray-200)",
+                          border: dienst === opt.value ? "1.5px solid var(--blue)" : "1.5px solid var(--gray-200)",
+                          boxShadow: dienst === opt.value ? "0 4px 16px rgba(37,99,235,0.30)" : "none",
+                          transform: dienst === opt.value ? "translateY(-1px)" : "none",
                         }}
                       >
                         {opt.label}
@@ -203,14 +236,10 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Fields */}
+                {/* Name + Email */}
                 <div className="grid sm:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label
-                      className="block text-sm font-medium mb-2"
-                      style={{ color: "var(--gray-700)" }}
-                      htmlFor="naam"
-                    >
+                    <label className="block text-sm font-medium mb-2" style={{ color: "var(--gray-700)" }} htmlFor="naam">
                       Naam *
                     </label>
                     <input
@@ -220,22 +249,14 @@ export default function ContactPage() {
                       placeholder="Jouw naam"
                       value={form.naam}
                       onChange={(e) => setForm({ ...form, naam: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-150"
-                      style={{
-                        backgroundColor: "white",
-                        border: "1px solid var(--gray-200)",
-                        color: "var(--gray-900)",
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--blue)")}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = "var(--gray-200)")}
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                      style={inputStyle}
+                      onFocus={onFocus}
+                      onBlur={onBlur}
                     />
                   </div>
                   <div>
-                    <label
-                      className="block text-sm font-medium mb-2"
-                      style={{ color: "var(--gray-700)" }}
-                      htmlFor="email"
-                    >
+                    <label className="block text-sm font-medium mb-2" style={{ color: "var(--gray-700)" }} htmlFor="email">
                       E-mail *
                     </label>
                     <input
@@ -245,24 +266,17 @@ export default function ContactPage() {
                       placeholder="jouw@email.nl"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-150"
-                      style={{
-                        backgroundColor: "white",
-                        border: "1px solid var(--gray-200)",
-                        color: "var(--gray-900)",
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "var(--blue)")}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = "var(--gray-200)")}
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                      style={inputStyle}
+                      onFocus={onFocus}
+                      onBlur={onBlur}
                     />
                   </div>
                 </div>
 
+                {/* Phone */}
                 <div className="mb-4">
-                  <label
-                    className="block text-sm font-medium mb-2"
-                    style={{ color: "var(--gray-700)" }}
-                    htmlFor="telefoon"
-                  >
+                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--gray-700)" }} htmlFor="telefoon">
                     Telefoonnummer
                   </label>
                   <input
@@ -271,23 +285,16 @@ export default function ContactPage() {
                     placeholder="06 12 34 56 78"
                     value={form.telefoon}
                     onChange={(e) => setForm({ ...form, telefoon: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-150"
-                    style={{
-                      backgroundColor: "white",
-                      border: "1px solid var(--gray-200)",
-                      color: "var(--gray-900)",
-                    }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--blue)")}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = "var(--gray-200)")}
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                    style={inputStyle}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                   />
                 </div>
 
+                {/* Message */}
                 <div className="mb-6">
-                  <label
-                    className="block text-sm font-medium mb-2"
-                    style={{ color: "var(--gray-700)" }}
-                    htmlFor="bericht"
-                  >
+                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--gray-700)" }} htmlFor="bericht">
                     Jouw bericht *
                   </label>
                   <textarea
@@ -297,29 +304,18 @@ export default function ContactPage() {
                     placeholder="Vertel ons wat je nodig hebt, hoeveel stuks, deadlines, etc."
                     value={form.bericht}
                     onChange={(e) => setForm({ ...form, bericht: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-150 resize-none"
-                    style={{
-                      backgroundColor: "white",
-                      border: "1px solid var(--gray-200)",
-                      color: "var(--gray-900)",
-                    }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = "var(--blue)")}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = "var(--gray-200)")}
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all resize-none"
+                    style={inputStyle}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                   />
                 </div>
 
+                {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl font-bold text-white transition-all duration-200 blue-glow-sm"
-                  style={{ backgroundColor: "var(--blue)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--blue-mid)";
-                    e.currentTarget.style.transform = "translateY(-1px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--blue)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
+                  className="btn-primary w-full justify-center"
+                  style={{ display: "flex" }}
                 >
                   Verstuur bericht →
                 </button>

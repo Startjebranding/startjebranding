@@ -41,32 +41,45 @@ const producten = [
 ];
 
 const stappen = [
-  { nr: "01", titel: "Aanvraag", desc: "Stuur ons jouw wensen, logo en ideeën via het contactformulier." },
-  { nr: "02", titel: "Ontwerp", desc: "Wij maken een digitaal ontwerp en sturen je een preview ter goedkeuring." },
-  { nr: "03", titel: "Productie", desc: "Na goedkeuring gaan we direct in productie met premium materialen." },
-  { nr: "04", titel: "Levering", desc: "Jouw bestelling wordt netjes verpakt en snel bezorgd." },
+  { nr: "01", titel: "Aanvraag",   desc: "Stuur ons jouw wensen, logo en ideeën via het contactformulier." },
+  { nr: "02", titel: "Ontwerp",    desc: "Wij maken een digitaal ontwerp en sturen je een preview ter goedkeuring." },
+  { nr: "03", titel: "Productie",  desc: "Na goedkeuring gaan we direct in productie met premium materialen." },
+  { nr: "04", titel: "Levering",   desc: "Jouw bestelling wordt netjes verpakt en snel bezorgd." },
 ];
 
 export default function KledingPage() {
   return (
     <>
-      {/* Hero */}
+      {/* ─── HERO ─────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden py-24"
         style={{ background: "linear-gradient(160deg, #FFFFFF 0%, #F0F7FF 50%, #DBEAFE 100%)" }}
       >
         {/* Decorative blobs */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none morph-blob"
           style={{
-            width: 500,
-            height: 500,
-            top: -150,
-            right: -100,
-            background: "radial-gradient(circle, rgba(191,219,254,0.5) 0%, transparent 65%)",
-            borderRadius: "50%",
+            width: 520,
+            height: 520,
+            top: -160,
+            right: -110,
+            background: "radial-gradient(circle, rgba(191,219,254,0.55) 0%, transparent 65%)",
+            animationDuration: "18s",
           }}
         />
+        <div
+          className="absolute pointer-events-none morph-blob"
+          style={{
+            width: 280,
+            height: 280,
+            bottom: -80,
+            left: -60,
+            background: "radial-gradient(circle, rgba(219,234,254,0.45) 0%, transparent 65%)",
+            animationDuration: "24s",
+            animationDelay: "-7s",
+          }}
+        />
+        {/* Dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -77,38 +90,45 @@ export default function KledingPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl">
+            {/* Badge */}
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6 animate-fade-in-up"
               style={{
                 backgroundColor: "rgba(37,99,235,0.08)",
-                border: "1.5px solid rgba(37,99,235,0.2)",
+                border: "1.5px solid rgba(37,99,235,0.20)",
                 color: "var(--blue)",
               }}
             >
-              👕 Merkkleding & Merch
+              <span className="w-2 h-2 rounded-full status-dot" style={{ backgroundColor: "var(--blue)", flexShrink: 0 }} />
+              Merkkleding & Merch
             </div>
+
             <h1
-              className="text-5xl md:text-6xl font-black leading-tight mb-6"
+              className="text-5xl md:text-6xl font-black leading-tight mb-6 animate-fade-in-up animate-delay-100"
               style={{ color: "var(--gray-900)" }}
             >
               Jouw merk op{" "}
-              <span className="gradient-text-blue">elk kledingstuk</span>
+              <span className="gradient-text-animated">elk kledingstuk</span>
             </h1>
+
             <p
-              className="text-xl leading-relaxed mb-8"
+              className="text-xl leading-relaxed mb-8 animate-fade-in-up animate-delay-200"
               style={{ color: "var(--gray-500)" }}
             >
               Professionele bedrijfskleding en merch die jouw merk zichtbaar maakt. Van losse
               stuks tot grote bestellingen — altijd op maat en topkwaliteit.
             </p>
-            <Link href="/contact" className="btn-primary">
-              Vraag een offerte aan →
-            </Link>
+
+            <div className="animate-fade-in-up animate-delay-300">
+              <Link href="/contact" className="btn-primary">
+                Vraag een offerte aan →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Producten */}
+      {/* ─── PRODUCTEN ────────────────────────────────────────────── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14" data-reveal="up">
@@ -119,12 +139,17 @@ export default function KledingPage() {
               Wat kunnen wij voor jou maken?
             </h2>
           </div>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {producten.map((p, i) => (
               <div key={p.naam} className="product-card" data-reveal="up" data-delay={String(i + 1)}>
                 <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-4"
-                  style={{ backgroundColor: "var(--blue-xpale)" }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4"
+                  style={{
+                    backgroundColor: "var(--blue-xpale)",
+                    border: "1.5px solid var(--blue-pale)",
+                    boxShadow: "0 4px 16px rgba(37,99,235,0.10)",
+                  }}
                 >
                   {p.icon}
                 </div>
@@ -140,7 +165,7 @@ export default function KledingPage() {
         </div>
       </section>
 
-      {/* Hoe het werkt */}
+      {/* ─── HOE HET WERKT ────────────────────────────────────────── */}
       <ProcessSection
         eyebrow="Het proces"
         heading={<>Van idee naar <span className="gradient-text-blue">kledingstuk</span></>}
@@ -148,25 +173,40 @@ export default function KledingPage() {
         bg="var(--gray-50)"
       />
 
-      {/* CTA */}
+      {/* ─── CTA ──────────────────────────────────────────────────── */}
       <section
         className="py-20 relative overflow-hidden"
         style={{ background: "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 50%, #BFDBFE 100%)" }}
       >
+        {/* Animated orbs */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none float-a"
           style={{
-            width: 350,
-            height: 350,
-            top: -100,
-            right: -80,
-            background: "radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%)",
+            width: 380,
+            height: 380,
+            top: -110,
+            right: -90,
+            background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)",
             borderRadius: "50%",
           }}
         />
+        <div
+          className="absolute pointer-events-none float-b"
+          style={{
+            width: 200,
+            height: 200,
+            bottom: -60,
+            left: -40,
+            background: "radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%)",
+            borderRadius: "50%",
+            animationDelay: "-3s",
+          }}
+        />
+
         <div className="relative max-w-3xl mx-auto px-6 text-center" data-reveal="up">
           <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: "var(--gray-900)" }}>
-            Klaar om jouw merk zichtbaar te maken?
+            Klaar om jouw merk{" "}
+            <span className="gradient-text-animated">zichtbaar te maken?</span>
           </h2>
           <p className="mb-8" style={{ color: "var(--gray-500)" }}>
             Stuur ons een berichtje en we sturen je binnen 24 uur een offerte op maat.
