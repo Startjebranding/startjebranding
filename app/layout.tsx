@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "./components/Navigation";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 import Footer from "./components/Footer";
 import ScrollReveal from "./components/ScrollReveal";
 
@@ -17,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className="scroll-smooth">
+    <html lang="nl" className={`${inter.variable} scroll-smooth`}>
       <body className="antialiased flex flex-col min-h-screen">
         <ScrollReveal />
         <Navigation />

@@ -11,16 +11,33 @@ export default function ParallaxHero() {
   const dotsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (blob1.current) blob1.current.style.transform = `translateY(${y * 0.35}px)`;
-      if (blob2.current) blob2.current.style.transform = `translateY(${y * 0.18}px)`;
-      if (blob3.current) blob3.current.style.transform = `translateY(${y * 0.5}px)`;
-      if (blob4.current) blob4.current.style.transform = `translateY(${y * 0.25}px)`;
+    let rafId: number;
+    let lastScrollY = 0;
+    let ticking = false;
+
+    const applyParallax = () => {
+      const y = lastScrollY;
+      if (blob1.current)   blob1.current.style.transform   = `translateY(${y * 0.35}px)`;
+      if (blob2.current)   blob2.current.style.transform   = `translateY(${y * 0.18}px)`;
+      if (blob3.current)   blob3.current.style.transform   = `translateY(${y * 0.50}px)`;
+      if (blob4.current)   blob4.current.style.transform   = `translateY(${y * 0.25}px)`;
       if (dotsRef.current) dotsRef.current.style.transform = `translateY(${y * 0.12}px)`;
+      ticking = false;
     };
+
+    const onScroll = () => {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        rafId = requestAnimationFrame(applyParallax);
+        ticking = true;
+      }
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -31,57 +48,60 @@ export default function ParallaxHero() {
         background: "linear-gradient(160deg, #FFFFFF 0%, #F0F7FF 45%, #DBEAFE 100%)",
       }}
     >
-      {/* ── Parallax blobs ── */}
+      {/* ── Parallax blobs — morph-blob animates border-radius, JS animates translateY ── */}
       <div
         ref={blob1}
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none morph-blob"
         style={{
           width: 700,
           height: 700,
           top: -200,
           right: -200,
           background: "radial-gradient(circle, rgba(191,219,254,0.65) 0%, transparent 65%)",
-          borderRadius: "50%",
           willChange: "transform",
+          animationDuration: "20s",
         }}
       />
       <div
         ref={blob2}
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none morph-blob"
         style={{
           width: 500,
           height: 500,
           bottom: -80,
           left: -120,
           background: "radial-gradient(circle, rgba(219,234,254,0.55) 0%, transparent 65%)",
-          borderRadius: "50%",
           willChange: "transform",
+          animationDuration: "26s",
+          animationDelay: "-6s",
         }}
       />
       <div
         ref={blob3}
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none morph-blob"
         style={{
           width: 260,
           height: 260,
           top: "28%",
           right: "12%",
           background: "radial-gradient(circle, rgba(147,197,253,0.45) 0%, transparent 65%)",
-          borderRadius: "50%",
           willChange: "transform",
+          animationDuration: "16s",
+          animationDelay: "-3s",
         }}
       />
       <div
         ref={blob4}
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none morph-blob"
         style={{
           width: 160,
           height: 160,
           top: "60%",
           left: "8%",
-          background: "radial-gradient(circle, rgba(96,165,250,0.3) 0%, transparent 65%)",
-          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(96,165,250,0.30) 0%, transparent 65%)",
           willChange: "transform",
+          animationDuration: "11s",
+          animationDelay: "-8s",
         }}
       />
 
@@ -116,7 +136,7 @@ export default function ParallaxHero() {
           height: 50,
           top: "35%",
           right: "8%",
-          background: "linear-gradient(135deg, rgba(96,165,250,0.2), rgba(147,197,253,0.3))",
+          background: "linear-gradient(135deg, rgba(96,165,250,0.20), rgba(147,197,253,0.30))",
           borderRadius: "50%",
         }}
       />
@@ -130,23 +150,38 @@ export default function ParallaxHero() {
           background: "rgba(37,99,235,0.12)",
           borderRadius: "10px",
           transform: "rotate(-10deg)",
+          animationDelay: "-3s",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none float-b"
+        style={{
+          width: 24,
+          height: 24,
+          top: "45%",
+          left: "18%",
+          background: "linear-gradient(135deg, rgba(37,99,235,0.18), rgba(96,165,250,0.12))",
+          borderRadius: "6px",
+          animationDelay: "-5s",
         }}
       />
 
       {/* ── Content ── */}
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center text-center justify-center" style={{ minHeight: "100vh", paddingTop: "120px", paddingBottom: "80px" }}>
-
+      <div
+        className="relative max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center text-center justify-center"
+        style={{ minHeight: "100vh", paddingTop: "120px", paddingBottom: "80px" }}
+      >
         {/* Badge */}
         <div
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-8 animate-fade-in-up"
           style={{
             backgroundColor: "rgba(37,99,235,0.08)",
-            border: "1.5px solid rgba(37,99,235,0.2)",
+            border: "1.5px solid rgba(37,99,235,0.20)",
             color: "var(--blue)",
           }}
         >
           <span
-            className="w-2 h-2 rounded-full"
+            className="w-2 h-2 rounded-full status-dot"
             style={{ backgroundColor: "var(--blue)", flexShrink: 0 }}
           />
           Professionele branding voor jouw bedrijf
@@ -158,7 +193,7 @@ export default function ParallaxHero() {
           style={{ fontSize: "clamp(3rem, 8vw, 6rem)", maxWidth: 900, color: "var(--gray-900)" }}
         >
           Jouw merk.{" "}
-          <span className="gradient-text">Onze kracht.</span>
+          <span className="gradient-text-animated">Onze kracht.</span>
         </h1>
 
         {/* Sub */}
@@ -190,14 +225,11 @@ export default function ParallaxHero() {
         >
           {[
             { value: "100+", label: "Tevreden klanten" },
-            { value: "2", label: "Krachtige diensten" },
+            { value: "2",    label: "Krachtige diensten" },
             { value: "100%", label: "Op maat gemaakt" },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-1">
-              <span
-                className="text-3xl md:text-4xl font-black"
-                style={{ color: "var(--blue)" }}
-              >
+              <span className="text-3xl md:text-4xl font-black gradient-text-blue" style={{ lineHeight: 1.2 }}>
                 {stat.value}
               </span>
               <span className="text-xs md:text-sm font-medium" style={{ color: "var(--gray-500)" }}>
@@ -210,7 +242,13 @@ export default function ParallaxHero() {
 
       {/* ── Wave bottom ── */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ lineHeight: 0 }}>
-        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ width: "100%", height: 60 }}>
+        <svg
+          viewBox="0 0 1440 60"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          style={{ width: "100%", height: 60 }}
+        >
           <path d="M0 60V30C240 0 480 0 720 20C960 40 1200 40 1440 20V60H0Z" fill="white" />
         </svg>
       </div>
