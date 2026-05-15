@@ -179,7 +179,7 @@ export default function WebsitesPage() {
                 data-delay={String(i + 1)}
               >
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+                  className="icon-box w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
                   style={{
                     backgroundColor: "var(--blue-xpale)",
                     border: "1.5px solid var(--blue-pale)",

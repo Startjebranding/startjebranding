@@ -216,12 +216,14 @@ export default function ProcessSection({ eyebrow, heading, steps, bg = "white" }
 }
 
 function StepCard({ step, index }: { step: ProcessStep; index: number }) {
-  // Slight shade variation so adjacent cards feel distinct
   const accentOpacity = 0.06 + index * 0.015;
 
   return (
     <div
+      className="process-card"
       style={{
+        position: "relative",
+        overflow: "hidden",
         background: "white",
         border: "1.5px solid var(--blue-pale)",
         borderRadius: 18,
@@ -229,9 +231,22 @@ function StepCard({ step, index }: { step: ProcessStep; index: number }) {
         boxShadow: "0 2px 20px rgba(37,99,235,0.07), 0 8px 32px rgba(37,99,235,0.04)",
       }}
     >
+      {/* Glint layer — fires on hover via parent .process-card:hover */}
+      <span
+        aria-hidden="true"
+        className="process-card-glint"
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
+          transform: "translateX(-140%) skewX(-18deg)",
+        }}
+      />
       {/* Number badge + title row */}
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
         <div
+          className="step-num-badge"
           style={{
             flexShrink: 0,
             width: 36,

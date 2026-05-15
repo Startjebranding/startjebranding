@@ -447,3 +447,87 @@ body {
 [data-delay="6"] { transition-delay: 0.48s; }
 [data-delay="7"] { transition-delay: 0.56s; }
 [data-delay="8"] { transition-delay: 0.64s; }
+
+/* ── Process section cards ───────────────────────────────────── */
+
+.process-card {
+  transition:
+    box-shadow   0.38s ease,
+    border-color 0.30s ease,
+    background   0.30s ease;
+}
+.process-card:hover {
+  border-color: transparent !important;
+  box-shadow:
+    0 20px 56px rgba(37,99,235,0.14),
+    0 4px  12px rgba(0,0,0,0.06) !important;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(135deg, var(--blue), var(--blue-light)) border-box !important;
+}
+.process-card:hover .process-card-glint {
+  animation: glint 0.55s ease forwards;
+}
+.process-card:hover .step-num-badge {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 5px rgba(37,99,235,0.12), 0 0 16px rgba(37,99,235,0.22);
+  background: rgba(37,99,235,0.18) !important;
+}
+.step-num-badge {
+  transition:
+    transform    0.35s var(--ease-spring),
+    box-shadow   0.35s ease,
+    background   0.30s ease;
+}
+
+/* ── Icon container micro-interaction ────────────────────────── */
+
+.icon-box {
+  transition:
+    transform  0.35s var(--ease-spring),
+    box-shadow 0.35s ease,
+    background 0.30s ease;
+}
+.feature-card:hover .icon-box,
+.product-card:hover .icon-box,
+.website-card:hover .icon-box,
+.service-card:hover .icon-box {
+  transform: scale(1.12) rotate(-4deg);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.20) !important;
+}
+
+/* ── Tag / pill hover ────────────────────────────────────────── */
+
+.tag-pill {
+  transition: transform 0.25s var(--ease-smooth), background 0.25s ease;
+  display: inline-block;
+}
+.tag-pill:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: var(--blue-pale) !important;
+}
+
+/* ── Additional keyframes ────────────────────────────────────── */
+
+/* Snappy pop — for cards that enter on scroll */
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.90) translateY(20px); }
+  65%  { transform: scale(1.03) translateY(-4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Subtle card shimmer / glint */
+@keyframes glint {
+  0%   { transform: translateX(-140%) skewX(-18deg); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateX(260%)  skewX(-18deg); opacity: 0; }
+}
+
+/* ── Scroll reveal: spring pop variant ──────────────────────── */
+
+[data-reveal="pop"].reveal-hidden        { opacity: 0; transform: scale(0.90) translateY(20px); }
+[data-reveal="pop"].in-view              {
+  opacity: 1;
+  transform: none;
+  animation: popIn 0.65s var(--ease-spring) forwards;
+}

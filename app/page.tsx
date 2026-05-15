@@ -63,7 +63,7 @@ export default function Home() {
                 </div>
                 {/* Central icon */}
                 <div
-                  className="relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center"
+                  className="icon-box relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center"
                   style={{
                     background: "white",
                     boxShadow: "0 8px 32px rgba(37,99,235,0.18), 0 2px 8px rgba(0,0,0,0.06)",
@@ -225,7 +225,7 @@ export default function Home() {
             ].map((item, i) => (
               <div key={item.title} className="feature-card" data-reveal="scale" data-delay={String(i + 1)}>
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
+                  className="icon-box w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
                   style={{
                     backgroundColor: item.iconBg,
                     border: `1.5px solid ${item.iconBorder}`,
